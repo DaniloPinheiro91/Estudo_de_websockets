@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplo WebSocket</title>
+</head>
+<body>
+  <h1>Cliente WebSocket</h1>
+  <p id="response">Aguardando resposta do servidor...</p>
+  <input type="text" id="messageInput" placeholder="Digite uma mensagem">
+  <button onclick="sendMessage()">Enviar Mensagem</button>
+
+  <script>
+    // Estabelece a conexão com o servidor WebSocket
+    const socket = new WebSocket('ws://localhost:8765');  // Conexão com o servidor WebSocket
+
+    // Ação quando a conexão for aberta
+    socket.onopen = () => {
+      console.log('Conexão WebSocket estabelecida!');
+    };
+
+    // Ação quando uma mensagem for recebida do servidor
+    socket.onmessage = (event) => {
+      document.getElementById('response').innerText = 'Resposta do servidor: ' + event.data;
+      console.log('Mensagem do servidor:', event.data);
+    };
+
+    // Ação quando a conexão for fechada
+    socket.onclose = () => {
+      console.log('Conexão WebSocket fechada!');
+    };
+
+    // Função para enviar mensagem quando o botão for clicado
+    function sendMessage() {
+      const message = document.getElementById('messageInput').value;
+      socket.send(message);
+    }
+  </script>
+</body>
+</html>
